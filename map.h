@@ -7,4 +7,6 @@ struct gamemap
   int **map;
 };
 
+gamemap gen_map (int size);
+
 #endif
