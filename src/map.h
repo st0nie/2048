@@ -7,6 +7,7 @@ typedef struct
   int **map;
 } gamemap;
 
-gamemap *gen_map (int size);
+// 创建一个地图，返回地图的指针
+gamemap *map_create (int size);
 
 #endif

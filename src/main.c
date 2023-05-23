@@ -8,6 +8,6 @@ main ()
   while (1)
     {
       show_menu ();
-      enter_menu (prompt ());
+      enter_menu (menu_prompt ());
     }
 }
