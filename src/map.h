@@ -1,12 +1,12 @@
 #ifndef MAP_H
 #define MAP_H
 
-struct gamemap
+typedef struct
 {
   int *score;
   int **map;
-};
+} gamemap;
 
-gamemap gen_map (int size);
+gamemap *gen_map (int size);
 
 #endif
