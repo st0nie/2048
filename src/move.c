@@ -1,255 +1,246 @@
 #include "move.h"
+#include <stdio.h>
 #include <string.h>
 
-int move_up(GAMEMAP *my_gamemap, int if_move) {
-  int(*my_map)[4] = my_gamemap->map;
-  int moved = 0;
+static void sort(int (*arr)[4]) {
   int i, j;
-  int sum = 0;
   for (i = 0; i < 4; i++) {
-    int init_line[4];
-    int line[4];
-    for (j = 0; j < 4; j++) {
-      init_line[j] = my_map[j][i];
-      line[j] = my_map[j][i];
-    }
-    int k, l;
-    for (k = 0; k < 4; k++) {
-      if (line[k] == 0) {
-        for (l = k; l < 4; l++) {
-          if (line[l] != 0) {
-            line[k] = line[l];
-            line[l] = 0;
-            break;
-          }
-        }
-      }
-    }
-
-    for (k = 0; k + 1 < 4; k++) {
-      if (line[k] == line[k + 1]) {
-        sum += line[k] * 2;
-        line[k] *= 2;
-        line[k + 1] = 0;
-      }
-    }
-
-    for (k = 0; k < 4; k++) {
-      if (line[k] == 0) {
-        for (l = k; l < 4; l++) {
-          if (line[l] != 0) {
-            line[k] = line[l];
-            line[l] = 0;
-            break;
-          }
-        }
-      }
-    }
-
-    int eq = memcmp(line, init_line, 4);
-    if (eq != 0) {
-      moved = 1;
-      if (if_move) {
-        for (j = 0; j < 4; j++) {
-          my_map[j][i] = line[j];
+    if ((*arr)[i] == 0) {
+      for (j = i + 1; j < 4; j++) {
+        if ((*arr)[j] != 0) {
+          (*arr)[i] = (*arr)[j];
+          (*arr)[j] = 0;
+          break;
         }
       }
     }
   }
+}
 
-  if (moved) {
+int move_left(GAMEMAP *the_map, int if_move) {
+  int can = 0;
+  int i, j, k, sum;
+  i = j = k = sum = 0;
+  int arr[4][4] = {0};
+
+  // copy to arr
+  for (i = 0; i < 4; i++) {
+    for (j = 0; j < 4; j++) {
+      arr[i][j] = the_map->map[i][j];
+    }
+  }
+
+  for (i = 0; i < 4; i++) {
+    sort(&arr[i]);
+  }
+
+  for (i = 0; i < 4; i++) {
+    for (j = 0; j + 1 < 4; j++) {
+      if (arr[i][j] == arr[i][j + 1]) {
+        sum += 2 * arr[i][j];
+        arr[i][j] *= 2;
+        arr[i][j + 1] = 0;
+      }
+    }
+  }
+
+  for (i = 0; i < 4; i++) {
+    sort(&arr[i]);
+  }
+
+  // 判断能不能
+  for (i = 0; i < 4; i++) {
+    for (j = 0; j < 4; j++) {
+      if (arr[i][j] != the_map->map[i][j]) {
+        can = 1;
+      }
+    }
+  }
+
+  if (if_move && can) {
+    for (i = 0; i < 4; i++) {
+      for (j = 0; j < 4; j++) {
+        the_map->map[i][j] = arr[i][j];
+      }
+    }
+  }
+
+  if (can) {
     return sum;
   } else {
     return -1;
   }
 }
 
+int move_right(GAMEMAP *the_map, int if_move) {
+  int can = 0;
+  int i, j, k, sum;
+  i = j = k = sum = 0;
+  int arr[4][4] = {0};
 
-int move_down(GAMEMAP *my_gamemap, int if_move) {
-  int(*my_map)[4] = my_gamemap->map;
-  int moved = 0;
-  int i, j;
-  int sum = 0;
+  // copy to arr
   for (i = 0; i < 4; i++) {
-    int init_line[4];
-    int line[4];
     for (j = 0; j < 4; j++) {
-      init_line[j] = my_map[3-j][i];
-      line[j] = my_map[3-j][i];
+      arr[i][3 - j] = the_map->map[i][j];
     }
-    int k, l;
-    for (k = 0; k < 4; k++) {
-      if (line[k] == 0) {
-        for (l = k; l < 4; l++) {
-          if (line[l] != 0) {
-            line[k] = line[l];
-            line[l] = 0;
-            break;
-          }
-        }
-      }
-    }
+  }
 
-    for (k = 0; k + 1 < 4; k++) {
-      if (line[k] == line[k + 1]) {
-        sum += line[k] * 2;
-        line[k] *= 2;
-        line[k + 1] = 0;
-      }
-    }
+  for (i = 0; i < 4; i++) {
+    sort(&arr[i]);
+  }
 
-    for (k = 0; k < 4; k++) {
-      if (line[k] == 0) {
-        for (l = k; l < 4; l++) {
-          if (line[l] != 0) {
-            line[k] = line[l];
-            line[l] = 0;
-            break;
-          }
-        }
-      }
-    }
-
-    int eq = memcmp(line, init_line, 4);
-    if (eq != 0) {
-      moved = 1;
-      if (if_move) {
-        for (j = 0; j < 4; j++) {
-          my_map[3-j][i] = line[j];
-        }
+  for (i = 0; i < 4; i++) {
+    for (j = 0; j + 1 < 4; j++) {
+      if (arr[i][j] == arr[i][j + 1]) {
+        sum += 2 * arr[i][j];
+        arr[i][j] *= 2;
+        arr[i][j + 1] = 0;
       }
     }
   }
 
-  if (moved) {
+  for (i = 0; i < 4; i++) {
+    sort(&arr[i]);
+  }
+
+  // 判断能不能
+  for (i = 0; i < 4; i++) {
+    for (j = 0; j < 4; j++) {
+      if (arr[i][3 - j] != the_map->map[i][j]) {
+        can = 1;
+      }
+    }
+  }
+
+  if (if_move && can) {
+    for (i = 0; i < 4; i++) {
+      for (j = 0; j < 4; j++) {
+        the_map->map[i][3 - j] = arr[i][j];
+      }
+    }
+  }
+
+  if (can) {
     return sum;
   } else {
     return -1;
   }
 }
 
-int move_left(GAMEMAP *my_gamemap, int if_move) {
-  int(*my_map)[4] = my_gamemap->map;
-  int moved = 0;
-  int i, j;
-  int sum = 0;
+int move_up(GAMEMAP *the_map, int if_move) {
+  int can = 0;
+  int i, j, k, sum;
+  i = j = k = sum = 0;
+  int arr[4][4] = {0};
+
+  // copy to arr
   for (i = 0; i < 4; i++) {
-    int init_line[4];
-    int line[4];
     for (j = 0; j < 4; j++) {
-      init_line[j] = my_map[i][j];
-      line[j] = my_map[i][j];
+      arr[i][j] = the_map->map[j][3 - i];
     }
-    int k, l;
-    for (k = 0; k < 4; k++) {
-      if (line[k] == 0) {
-        for (l = k; l < 4; l++) {
-          if (line[l] != 0) {
-            line[k] = line[l];
-            line[l] = 0;
-            break;
-          }
-        }
-      }
-    }
+  }
 
-    for (k = 0; k + 1 < 4; k++) {
-      if (line[k] == line[k + 1]) {
-        sum += line[k] * 2;
-        line[k] *= 2;
-        line[k + 1] = 0;
-      }
-    }
+  for (i = 0; i < 4; i++) {
+    sort(&arr[i]);
+  }
 
-    for (k = 0; k < 4; k++) {
-      if (line[k] == 0) {
-        for (l = k; l < 4; l++) {
-          if (line[l] != 0) {
-            line[k] = line[l];
-            line[l] = 0;
-            break;
-          }
-        }
-      }
-    }
-
-    int eq = memcmp(line, init_line, 4);
-    if (eq != 0) {
-      moved = 1;
-      if (if_move) {
-        for (j = 0; j < 4; j++) {
-          my_map[i][j] = line[j];
-        }
+  for (i = 0; i < 4; i++) {
+    for (j = 0; j + 1 < 4; j++) {
+      if (arr[i][j] == arr[i][j + 1]) {
+        sum += 2 * arr[i][j];
+        arr[i][j] *= 2;
+        arr[i][j + 1] = 0;
       }
     }
   }
 
-  if (moved) {
+  for (i = 0; i < 4; i++) {
+    sort(&arr[i]);
+  }
+
+  // 判断能不能
+  for (i = 0; i < 4; i++) {
+    for (j = 0; j < 4; j++) {
+      if (arr[i][j] != the_map->map[j][3 - i]) {
+        can = 1;
+      }
+    }
+  }
+
+  if (if_move && can) {
+    for (i = 0; i < 4; i++) {
+      for (j = 0; j < 4; j++) {
+        the_map->map[j][3 - i] = arr[i][j];
+      }
+    }
+  }
+
+  if (can) {
     return sum;
   } else {
     return -1;
   }
 }
 
-int move_right(GAMEMAP *my_gamemap, int if_move) {
-  int(*my_map)[4] = my_gamemap->map;
-  int moved = 0;
-  int i, j;
-  int sum = 0;
+int move_down(GAMEMAP *the_map, int if_move) {
+  int can = 0;
+  int i, j, k, sum;
+  i = j = k = sum = 0;
+  int arr[4][4] = {0};
+
+  // copy to arr
   for (i = 0; i < 4; i++) {
-    int init_line[4];
-    int line[4];
     for (j = 0; j < 4; j++) {
-      init_line[j] = my_map[i][3-j];
-      line[j] = my_map[i][3-j];
+      arr[i][j] = the_map->map[3 - j][i];
     }
-    int k, l;
-    for (k = 0; k < 4; k++) {
-      if (line[k] == 0) {
-        for (l = k; l < 4; l++) {
-          if (line[l] != 0) {
-            line[k] = line[l];
-            line[l] = 0;
-            break;
-          }
-        }
-      }
-    }
+  }
 
-    for (k = 0; k + 1 < 4; k++) {
-      if (line[k] == line[k + 1]) {
-        sum += line[k] * 2;
-        line[k] *= 2;
-        line[k + 1] = 0;
-      }
-    }
+  for (i = 0; i < 4; i++) {
+    sort(&arr[i]);
+  }
 
-    for (k = 0; k < 4; k++) {
-      if (line[k] == 0) {
-        for (l = k; l < 4; l++) {
-          if (line[l] != 0) {
-            line[k] = line[l];
-            line[l] = 0;
-            break;
-          }
-        }
-      }
-    }
-
-    int eq = memcmp(line, init_line, 4);
-    if (eq != 0) {
-      moved = 1;
-      if (if_move) {
-        for (j = 0; j < 4; j++) {
-          my_map[i][j] = line[3-j];
-        }
+  for (i = 0; i < 4; i++) {
+    for (j = 0; j + 1 < 4; j++) {
+      if (arr[i][j] == arr[i][j + 1]) {
+        sum += 2 * arr[i][j];
+        arr[i][j] *= 2;
+        arr[i][j + 1] = 0;
       }
     }
   }
 
-  if (moved) {
+  for (i = 0; i < 4; i++) {
+    sort(&arr[i]);
+  }
+
+  // 判断能不能
+  for (i = 0; i < 4; i++) {
+    for (j = 0; j < 4; j++) {
+      if (arr[i][j] != the_map->map[3 - j][i]) {
+        can = 1;
+      }
+    }
+  }
+
+  if (if_move && can) {
+    for (i = 0; i < 4; i++) {
+      for (j = 0; j < 4; j++) {
+        the_map->map[3 - j][i] = arr[i][j];
+      }
+    }
+  }
+
+  if (can) {
     return sum;
   } else {
     return -1;
   }
+}
+
+int can_move(GAMEMAP *the_map) {
+  if (move_up(the_map, 0) || move_down(the_map, 0) || move_left(the_map, 0) ||
+      move_right(the_map, 0)) {
+    return 1;
+  }
+  return 0;
 }

@@ -49,9 +49,9 @@ int Random(GAMEMAP *my_gamemap)
             }
         }
     }
-    /* if(!can_move(my_gamemap)) */
-    /* { */
-    /*     return 1; */
-    /* } */
+    if(!can_move(my_gamemap))
+    {
+        return 1;
+    }
     return 0;
 }

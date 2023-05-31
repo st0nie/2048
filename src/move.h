@@ -6,14 +6,14 @@
 #endif
 
 // 地图上下左右移动
-int move_up (GAMEMAP *map,int if_move);
+int move_up(GAMEMAP *map, int if_move);
 
-int move_down (GAMEMAP *map,int if_move);
+int move_down(GAMEMAP *map, int if_move);
 
-int move_right (GAMEMAP *map,int if_move);
+int move_right(GAMEMAP *map, int if_move);
 
-int  move_left (GAMEMAP *map,int if_move);
+int move_left(GAMEMAP *map, int if_move);
 
-/* int can_move(GAMEMAP *map); */
+int can_move(GAMEMAP *map);
 
 #endif
