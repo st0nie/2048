@@ -1,5 +1,6 @@
 #ifndef UTILS_H
 #define UTILS_H
+#include <stdio.h>
 
 // 打印主菜单
 void show_menu (void);
@@ -15,5 +16,16 @@ int move_prompt (void);
 
 // 进入用户选择的选单
 void enter_menu (int);
+
+void print_map(int (*map)[4]){
+  int i,j;
+  i=j=0;
+  for(i=0;i<4;i++){
+	for(j=0;j<4;j++){
+	  printf("%d ",map[i][j]);
+	}
+	putchar('\n');
+  }
+}
 
 #endif

@@ -4,7 +4,7 @@
 
 int game_start_new() {
   int size = size_prompt();
-  gamemap *map = map_create(size);
+  GAMEMAP *map = map_create();
   while (1) {
 	int move = move_prompt();
   }

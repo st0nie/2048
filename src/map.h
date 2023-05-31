@@ -1,13 +1,13 @@
 #ifndef MAP_H
 #define MAP_H
 
-typedef struct
+typedef struct gamemap
 {
   int *score;
-  int **map;
-} gamemap;
+  int (*map)[4];
+} GAMEMAP;
 
 // 创建一个地图，返回地图的指针
-gamemap *map_create (int size);
+GAMEMAP *map_create (void);
 
 #endif
