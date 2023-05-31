@@ -3,7 +3,7 @@
 
 typedef struct gamemap
 {
-  int *score;
+  int score;
   int (*map)[4];
 } GAMEMAP;
 

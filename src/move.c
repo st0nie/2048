@@ -238,8 +238,8 @@ int move_down(GAMEMAP *the_map, int if_move) {
 }
 
 int can_move(GAMEMAP *the_map) {
-  if (move_up(the_map, 0) || move_down(the_map, 0) || move_left(the_map, 0) ||
-      move_right(the_map, 0)) {
+  if (move_up(the_map, 0) != -1 || move_down(the_map, 0) != -1 ||
+      move_left(the_map, 0) != -1 || move_right(the_map, 0) != -1) {
     return 1;
   }
   return 0;

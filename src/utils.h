@@ -1,5 +1,6 @@
 #ifndef UTILS_H
 #define UTILS_H
+#include "map.h"
 #include <stdio.h>
 
 // 打印主菜单
@@ -17,15 +18,10 @@ int move_prompt(void);
 // 进入用户选择的选单
 void enter_menu(int);
 
-void print_map(int (*map)[4]) {
-  int i, j;
-  i = j = 0;
-  for (i = 0; i < 4; i++) {
-    for (j = 0; j < 4; j++) {
-      printf("%-4d", map[i][j]);
-    }
-    putchar('\n');
-  }
-}
+// 打印地图
+void print_map(int (*map)[4]);
+
+// 判断是否能走
+int judge(GAMEMAP *the_map, int result);
 
 #endif
