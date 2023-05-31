@@ -7,7 +7,9 @@
 int Random(GAMEMAP *my_gamemap)
 {
     int (*mymap)[4]=my_gamemap->map;
-    int i,j,k,zeros=0;
+    int i,j,k,zeros;
+	i=j=k=zeros=0;
+    srand(time(NULL));
     for(i=0; i<4; i++)
     {
         for(j=0; j<4; j++)
@@ -20,12 +22,12 @@ int Random(GAMEMAP *my_gamemap)
             }
         }
     }
-    srand(time(NULL)+zeros*50000);
     if(zeros==0)
     {
         return 1;
     }
     int index =1+rand()%zeros;
+	printf("%d\n",index);
     for(i=0; i<4; i++)
     {
         for(j=0; j<4; j++)
@@ -35,6 +37,7 @@ int Random(GAMEMAP *my_gamemap)
             if(n==0)
             {
                 k++;
+				/* printf("%d %d\n",k,index); */
                 if(k==index)
                 {
 					if (rand()%2){
