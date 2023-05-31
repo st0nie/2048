@@ -27,7 +27,7 @@ int Random(GAMEMAP *my_gamemap)
         return 1;
     }
     int index =1+rand()%zeros;
-	printf("%d\n",index);
+	/* printf("%d\n",index); */
     for(i=0; i<4; i++)
     {
         for(j=0; j<4; j++)
