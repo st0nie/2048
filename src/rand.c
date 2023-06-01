@@ -4,7 +4,7 @@
 #include <time.h>
 #include "move.h"
 
-int Random(GAMEMAP *my_gamemap)
+int random_num(GAMEMAP *my_gamemap)
 {
     int (*mymap)[4]=my_gamemap->map;
     int i,j,k,zeros;

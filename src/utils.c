@@ -20,7 +20,7 @@ int judge(GAMEMAP *the_map, int result) {
     printf("Unable to move in this direction\n");
     return 1;
   }
-  if (Random(the_map) == 0)
+  if (random_num(the_map) == 0)
     return 1;
   return 0;
 }

@@ -2,6 +2,6 @@
 #define RAND_H
 #include "map.h"
 
-int Random(GAMEMAP *my_gamemap);
+int random_num(GAMEMAP *my_gamemap);
 
 #endif
