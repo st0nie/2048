@@ -2,6 +2,14 @@
 #include "game.h"
 #include "rand.h"
 
+void print_menu()
+{
+  printf("2048\n");
+  printf("1.start\n");
+  printf("2.continue\n");
+  printf("3.history\n");
+  printf("4.exit\n");
+}
 /* void */
 /* enter_menu (int n) */
 /* { */

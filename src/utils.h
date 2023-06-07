@@ -2,6 +2,8 @@
 #define UTILS_H
 #include "map.h"
 #include <stdio.h>
+//生成菜单
+void print_menu(void);
 
 // 打印主菜单
 void show_menu(void);
