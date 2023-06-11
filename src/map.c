@@ -44,6 +44,6 @@ void map_load(char *name, GAMEMAP *my_map) {
       fscanf(fp,"%d",&(my_map->map[i][j]));
     }
   }
-  fscanf(fp,"|%d",my_map->score);
+  fscanf(fp,"|%d",&(my_map->score));
   fclose(fp);
 }
