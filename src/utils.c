@@ -5,10 +5,10 @@
 void print_menu()
 {
   printf("2048\n");
-  printf("1.start\n");
-  printf("2.continue\n");
-  printf("3.history\n");
-  printf("4.exit\n");
+  printf("1.Start\n");
+  printf("2.Continue\n");
+  printf("3.History\n");
+  printf("4.Exit\n");
 }
 /* void */
 /* enter_menu (int n) */
@@ -26,6 +26,10 @@ void print_menu()
 int judge(GAMEMAP *the_map, int result) {
   if (result == -1) {
     printf("Unable to move in this direction\n");
+    return 1;
+  }
+  if (result == -2){
+    printf("Map saved\n");
     return 1;
   }
   if (random_num(the_map) == 0)

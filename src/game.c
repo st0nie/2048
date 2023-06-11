@@ -6,13 +6,13 @@
 int game_start_new(int type) {
   int t = time(0);
   GAMEMAP *the_map = map_create();
-  if(type==1){
-    char str[100]="./";
+  if (type == 1) {
+    char str[100] = "./";
     printf("please input filename:");
-    scanf("%s",str+2);
+    scanf("%s", str + 2);
     getchar();
     putchar('\n');
-    map_load(str,the_map);
+    map_load(str, the_map);
   }
   int(*my_gamemap)[4] = the_map->map;
   int i = 0;
@@ -28,12 +28,13 @@ int game_start_new(int type) {
     char input;
     printf("Input direction:");
     while ((input = getchar()) != 'j' && input != 'k' && input != 'l' &&
-           input != 'i'&& input != 's') {
+           input != 'i' && input != 's' && input != 'q') {
       printf("Invalid input, try again:");
     };
     switch (input) {
     case 's':
       map_save(the_map, t);
+      result = -2;
       break;
     case 'i':
       result = move_up(the_map, 1);
@@ -47,6 +48,8 @@ int game_start_new(int type) {
     case 'l':
       result = move_right(the_map, 1);
       break;
+    case 'q':
+      return 0;
     }
     if (result >= 0) {
       the_map->score += result;
@@ -60,5 +63,3 @@ int game_start_new(int type) {
   print_map(my_gamemap);
   return the_map->score;
 }
-
-
