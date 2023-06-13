@@ -3,6 +3,7 @@
 #include "utils.h"
 #include <dirent.h>
 #include <time.h>
+#include <stdlib.h>
 
 int game_start_new(int type) {
   int t = time(0);
@@ -50,6 +51,14 @@ int game_start_new(int type) {
       result = move_right(the_map, 1);
       break;
     case 'q':
+      getchar();
+      printf("Save map?(y, n):");
+      char ch;
+      while ((ch=getchar())!='y'&&ch!='n'){
+        printf("input y or n:");
+      }
+      if (ch == 'y')
+        map_save(the_map, t);
       return 0;
     }
     if (result >= 0) {
@@ -97,4 +106,5 @@ void game_history(void) {
     printf("best score: %d\n", best_score);
     closedir(d);
   }
+  free(the_map);
 }

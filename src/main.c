@@ -16,6 +16,7 @@ int main() {
     game_start_new(0);
     break;
   case '2':
+    game_history();
     game_start_new(1);
     break;
   case '3':
