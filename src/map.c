@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <dirent.h>
 
 GAMEMAP *map_create(void) {
   GAMEMAP *my_map = malloc(sizeof(GAMEMAP));
@@ -17,7 +18,7 @@ GAMEMAP *map_create(void) {
 
 void map_save(GAMEMAP *my_map, int time) {
   char ti[100] = {0};
-  sprintf(ti, "%d", time);
+  sprintf(ti, "./saved/%d", time);
   FILE *fp;
   int i, d;
   fp = fopen(ti, "w");
@@ -27,23 +28,24 @@ void map_save(GAMEMAP *my_map, int time) {
       fprintf(fp, "%d ", my_map->map[i][j]);
     }
   }
-  fprintf(fp,"|%d",my_map->score);
+  fprintf(fp, "|%d", my_map->score);
   fclose(fp);
 }
 
 void map_load(char *name, GAMEMAP *my_map) {
   FILE *fp;
-  fp = fopen(name, "r");
-  if(fp==NULL)
-  {
+  char ti[100] = {0};
+  sprintf(ti, "./saved/%s", name);
+  fp = fopen(ti, "r");
+  if (fp == NULL) {
     printf("invalid filename!!!\n");
     return;
   }
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      fscanf(fp,"%d",&(my_map->map[i][j]));
+      fscanf(fp, "%d", &(my_map->map[i][j]));
     }
   }
-  fscanf(fp,"|%d",&(my_map->score));
+  fscanf(fp, "|%d", &(my_map->score));
   fclose(fp);
 }

@@ -4,5 +4,7 @@
 // 开始新游戏
 int game_start_new (int type);
 
+// 展示历史
+void game_history(void);
 
 #endif

@@ -1,6 +1,7 @@
 #include "game.h"
 #include "map.h"
 #include "utils.h"
+#include <dirent.h>
 #include <time.h>
 
 int game_start_new(int type) {
@@ -59,7 +60,41 @@ int game_start_new(int type) {
     i++;
   } while (judge(the_map, result));
   printf("Game Over!\n");
+  map_save(the_map, t);
   putchar('\n');
   print_map(my_gamemap);
   return the_map->score;
+}
+
+void game_history(void) {
+  struct dirent *dir;
+  GAMEMAP *the_map = map_create();
+  int(*my_gamemap)[4] = the_map->map;
+  DIR *d = opendir("./saved");
+  struct dirent *best = NULL;
+  int best_score = 0;
+  if (d) {
+    while ((dir = readdir(d)) != NULL) {
+      if (dir->d_name[0] != '.') {
+        printf("map: %s\n", dir->d_name);
+        map_load(dir->d_name, the_map);
+        int score = 0;
+        for (int i = 0; i < 4; i++) {
+          for (int j = 0; j < 4; j++) {
+            score += my_gamemap[i][j];
+            best = dir;
+          }
+        }
+        if (score >= best_score) {
+          best_score = score;
+        }
+        printf("score: %d\n", score);
+        print_map(my_gamemap);
+        putchar('\n');
+      }
+    }
+    printf("best map: %s\n", best->d_name);
+    printf("best score: %d\n", best_score);
+    closedir(d);
+  }
 }
