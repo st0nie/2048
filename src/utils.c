@@ -2,8 +2,7 @@
 #include "game.h"
 #include "rand.h"
 
-void print_menu()
-{
+void print_menu() {
   printf("2048\n");
   printf("1.Start\n");
   printf("2.Continue\n");
@@ -28,7 +27,7 @@ int judge(GAMEMAP *the_map, int result) {
     printf("Unable to move in this direction\n");
     return 1;
   }
-  if (result == -2){
+  if (result == -2) {
     printf("Map saved\n");
     return 1;
   }

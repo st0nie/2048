@@ -2,8 +2,8 @@
 #include "map.h"
 #include "utils.h"
 #include <dirent.h>
-#include <time.h>
 #include <stdlib.h>
+#include <time.h>
 
 int game_start_new(int type) {
   int t = time(0);
@@ -19,9 +19,13 @@ int game_start_new(int type) {
   int(*my_gamemap)[4] = the_map->map;
   int i = 0;
   int result;
+  int saved = 0;
   do {
     if (i) {
       getchar();
+    }
+    if (saved) {
+      saved--;
     }
     result = 0;
     print_map(my_gamemap);
@@ -36,6 +40,7 @@ int game_start_new(int type) {
     switch (input) {
     case 's':
       map_save(the_map, t);
+      saved = 2;
       result = -2;
       break;
     case 'i':
@@ -51,14 +56,16 @@ int game_start_new(int type) {
       result = move_right(the_map, 1);
       break;
     case 'q':
-      getchar();
-      printf("Save map?(y, n):");
-      char ch;
-      while ((ch=getchar())!='y'&&ch!='n'){
-        printf("input y or n:");
+      if (!saved) {
+        getchar();
+        printf("Save map?(y, n):");
+        char ch;
+        while ((ch = getchar()) != 'y' && ch != 'n') {
+          printf("input y or n:");
+        }
+        if (ch == 'y')
+          map_save(the_map, t);
       }
-      if (ch == 'y')
-        map_save(the_map, t);
       return 0;
     }
     if (result >= 0) {
