@@ -13,6 +13,6 @@ GAMEMAP *map_create(void);
 void map_save(GAMEMAP *my_map, int time);
 
 // 读取上一次的地图记录
-void map_load(char *, GAMEMAP *);
+int map_load(char *, GAMEMAP *);
 
 #endif

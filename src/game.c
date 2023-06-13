@@ -5,13 +5,16 @@
 #include <stdlib.h>
 #include <time.h>
 
-int game_start_new(int type) {
+int game_start_new(int type, int *index) {
   int t = time(0);
   GAMEMAP *the_map = map_create();
   if (type == 1) {
-    char str[100] = "./";
-    printf("please input filename:");
-    scanf("%s", str + 2);
+    int num = 0;
+    printf("Please input file number:");
+    scanf("%d", &num);
+    char str[100] = {0};
+    num = index[num - 1];
+    sprintf(str, "%d", num);
     getchar();
     putchar('\n');
     map_load(str, the_map);
@@ -82,36 +85,43 @@ int game_start_new(int type) {
   return the_map->score;
 }
 
-void game_history(void) {
+int *game_history(void) {
   struct dirent *dir;
   GAMEMAP *the_map = map_create();
   int(*my_gamemap)[4] = the_map->map;
   DIR *d = opendir("./saved");
   struct dirent *best = NULL;
   int best_score = 0;
+  int *index = (int *)malloc(sizeof(int));
+  int i = 0;
+  int *p;
   if (d) {
     while ((dir = readdir(d)) != NULL) {
       if (dir->d_name[0] != '.') {
-        printf("map: %s\n", dir->d_name);
-        map_load(dir->d_name, the_map);
+        p = realloc(index, i + 1 * (sizeof(int)));
+        p[i] = atoi(dir->d_name);
+        i++;
+        printf("Map: (%d) %s\n", i, dir->d_name);
         int score = 0;
-        for (int i = 0; i < 4; i++) {
-          for (int j = 0; j < 4; j++) {
-            score += my_gamemap[i][j];
-            best = dir;
-          }
-        }
+        score = map_load(dir->d_name, the_map);
         if (score >= best_score) {
           best_score = score;
+          best = dir;
         }
-        printf("score: %d\n", score);
+        printf("Score: %d\n", score);
         print_map(my_gamemap);
         putchar('\n');
       }
     }
-    printf("best map: %s\n", best->d_name);
-    printf("best score: %d\n", best_score);
+    p[i] = 0;
+    if (best != NULL) {
+      printf("Best map: %s\n", best->d_name);
+      printf("Best score: %d\n", best_score);
+    } else {
+      printf("Not available map.\n");
+    }
     closedir(d);
   }
   free(the_map);
+  return p;
 }

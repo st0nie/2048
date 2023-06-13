@@ -11,13 +11,14 @@ int main() {
   char input = getchar();
   getchar();
   int score;
+  int *index=NULL;
   switch (input) {
   case '1':
-    game_start_new(0);
+    game_start_new(0,NULL);
     break;
   case '2':
-    game_history();
-    game_start_new(1);
+    index=game_history();
+    game_start_new(1,index);
     break;
   case '3':
     game_history();

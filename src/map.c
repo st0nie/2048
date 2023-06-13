@@ -18,7 +18,6 @@ GAMEMAP *map_create(void) {
 
 void map_save(GAMEMAP *my_map, int time) {
   char ti[100] = {0};
-  char *last = "./saved/last";
   sprintf(ti, "./saved/%d", time);
   FILE *fp;
   int i, d;
@@ -28,27 +27,26 @@ void map_save(GAMEMAP *my_map, int time) {
       fprintf(fp, "%d ", my_map->map[i][j]);
     }
   }
-  fprintf(fp, "|%d", my_map->score);
-  fclose(fp);
-  fp = fopen(last, "w");
-  fprintf(fp, "%d", time);
+  fprintf(fp, "%d", my_map->score);
   fclose(fp);
 }
 
-void map_load(char *name, GAMEMAP *my_map) {
+int map_load(char *name, GAMEMAP *my_map) {
   FILE *fp;
   char ti[100] = {0};
   sprintf(ti, "./saved/%s", name);
   fp = fopen(ti, "r");
   if (fp == NULL) {
     printf("invalid filename!!!\n");
-    return;
+    return -1;
   }
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
       fscanf(fp, "%d", &(my_map->map[i][j]));
     }
   }
-  fscanf(fp, "|%d", &(my_map->score));
+  fscanf(fp, "%d", &(my_map->score));
+  /* printf("%d",my_map->score); */
   fclose(fp);
+  return my_map->score;
 }
