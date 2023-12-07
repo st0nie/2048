@@ -2,7 +2,7 @@ VPATH = src
 CFLAGS = -g
 
 2048: main.o rand.o move.o map.o utils.o game.o
-	gcc main.o rand.o move.o map.o utils.o game.o -g -o 2048
+	$(CC) main.o rand.o move.o map.o utils.o game.o -g -o 2048
 
 run: 2048
 	./2048
